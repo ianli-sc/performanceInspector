@@ -1,0 +1,28 @@
+/* Copyright 2013 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+html, body {
+    font-family: 12px/1.2 "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    margin: 0;
+}
+
+h2 {
+    font-size: 18px;
+    margin: 18px;
+}
+h3 {
+    font-size: 14px;
+    padding: 14px 14px 14px 30px;
+    cursor: pointer;
+}
+
+article {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+}
+
+article div {
+    height: 400px;
+    padding-left: 30px;
+}
