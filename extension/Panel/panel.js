@@ -1,8 +1,24 @@
 (function(w) {
+    var loadTime = 20000;
+
+    /**
+     * get res before load
+     * @param res
+     */
+    function getDataBeforeLoad(res) {
+        var result = [];
+        $.each(res, function(key, value) {
+            if(value.fetchStart <= loadTime) {
+                result.push(value);
+            }
+        });
+        return result;
+    }
     /**
      * get all entries
      */
     function getEntries() {
+        var entries;
         if(chrome && chrome.devtools) {
             var devTools = chrome.devtools;
             var inspectedWindow = devTools.inspectedWindow;
@@ -10,11 +26,15 @@
                 if(e) {
                     document.body.innerHTML = 'Eval code error : ' + e;
                 } else {
-                    createEntries(JSON.parse(result));
+                    entries = JSON.parse(result);
+                    createEntries(entries, $('.all'));
+                    createEntries(getDataBeforeLoad(entries), $('.beforeonload'));
                 }
             });
         } else {
-            createEntries(window.performance.getEntries());
+            entries = window.performance.getEntries();
+            createEntries(entries, $('.all'));
+            createEntries(getDataBeforeLoad(entries), $('.beforeonload'));
         }
     }
 
@@ -91,6 +111,7 @@
         ];
         var dataList = [];
         var startTime = timing.fetchStart;
+
         function getRange(now) {
             if(now) {
                 return now - startTime;
@@ -98,6 +119,9 @@
                 return now;
             }
         }
+
+        //save load Time
+        loadTime = timing.loadEventStart - startTime;
         dataList.push(
             [getRange(timing.redirectStart), getRange(timing.redirectEnd)],
             [getRange(timing.fetchStart), getRange(timing.domainLookupStart)],
@@ -191,7 +215,7 @@
     /**
      * create createEntries
      */
-    function createEntries(resources) {
+    function createEntries(resources, root) {
         var brandsDataAmount = [];
         var brandsDataTimes = [];
         var drilldownSeries = [];
@@ -228,11 +252,13 @@
 
                 //create data for drill
                 var name = value.name;
-                var shortName = name.slice((name.lastIndexOf('/') + 1));
+                var shortName = name.substr((name.lastIndexOf('/') + 1), 20);
+                //full name may toooooooo long
+                var fullName4show = name.length < 50 ? name : (name.slice(0, 30) + '...' + shortName);
                 tmpObj = {
                     data : [
                         {
-                            fullName : name,
+                            fullName : fullName4show,
                             name : shortName,
                             data : value.duration,
                             y : 1
@@ -259,10 +285,12 @@
                 //add to series
                 //tmpObj = [value.name, value.duration];
                 var name = value.name;
-                var shortName = name.slice((name.lastIndexOf('/') + 1));
+                var shortName = name.substr((name.lastIndexOf('/') + 1), 20);
+                //full name may toooooooo long
+                var fullName4show = name.length < 50 ? name : (name.slice(0, 30) + '...' + shortName);
                 tmpObj = {
                     name : shortName,
-                    fullName : value.name,
+                    fullName : fullName4show,
                     y : 1,
                     data : value.duration
                 };
@@ -291,12 +319,12 @@
             });
         });
         // Create the chart
-        $('.resource > div.pie-amout').highcharts({
+        $('div.pie-amout', root).highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: 'Resources amount detail'
+                text: 'Resources amount detail - total : ' + totalAmount
             },
             subtitle: {
                 text: 'Click the slices to view timing details'
@@ -312,11 +340,11 @@
 
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.fullName} </span>: <b>{point.data} </b><br/>'
+                pointFormat: '<span style="color:{point.color};font-weight:bolder;">{point.fullName} </span>: <b>{point.data} </b><br/>'
             },
 
             series: [{
-                name: 'Brands',
+                name: 'Amount of Resource',
                 colorByPoint: true,
                 data: brandsDataAmount
             }],
@@ -324,12 +352,12 @@
                 series: drilldownSeries
             }
         });
-        $('.resource > div.pie-duration').highcharts({
+        $('div.pie-duration', root).highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: 'Resources duration detail'
+                text: 'Resources duration detail - total : ' + parseFloat(totalTime).toFixed(4) + 'ms'
             },
             subtitle: {
                 text: 'Click the slices to view timing details'
@@ -345,11 +373,11 @@
 
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.fullName} </span>: <b>{point.data} </b><br/>'
+                pointFormat: '<span style="color:{point.color};font-weight:bolder;">{point.fullName} </span>: <b>{point.data} </b><br/>'
             },
 
             series: [{
-                name: 'Brands',
+                name: 'Duration of resource',
                 colorByPoint: true,
                 data: brandsDataTimes
             }],
@@ -376,16 +404,19 @@
                         document.body.innerHTML = 'Eval code error : ' + isException;
                     } else {
                         createView(result);
+                        getEntries();
                     }
                 }
             );
         } else {
             createView(window.performance);
+            getEntries();
         }
-        getEntries();
 
         $('article > h3').on('click', function(e) {
-            $(e.target).parents('article').find('div').toggle();
+            var target = $(e.target).parents('article');
+            target.find('div').toggle();
+            target.find('table').toggle();
         });
     }
 
