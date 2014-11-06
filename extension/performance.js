@@ -3,7 +3,7 @@
  */
 chrome.devtools.panels.create(
     'Performance',
-    null, // No icon path
+    './icon.png',
     'Panel/panel.html',
     function(extensionPanel) {
         var _window; // Going to hold the reference to panel.html's `window`

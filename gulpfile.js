@@ -12,7 +12,7 @@ gulp.task('clean', function () {
 
 //move
 gulp.task('move', function() {
-    return gulp.src(['extension/**/*.html', 'extension/**/*.json'])
+    return gulp.src(['extension/**/*.html', 'extension/**/*.png', 'extension/**/*.json'])
         .pipe(gulp.dest('build'));
 });
 
