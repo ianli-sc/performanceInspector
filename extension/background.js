@@ -2,20 +2,23 @@
 var ports = {};
 
 // Function to send a message to all devtools.html views:
-function notifyDevtools(msg, id) {
+function notifyDevtools(msg, id, url) {
     var port = ports[id];
-    if(ports[id]) {
-        port.postMessage(msg);
+    if(port.port && port.url === url) {
+        port.port.postMessage(msg);
     }
 }
 
 chrome.runtime.onConnect.addListener(function(port) {
     var names = port.name.split('_');
-    if (!names || names.length !== 2 || names[0] !== "performance") {
+    if (!names || names.length !== 3 || names[0] !== "performance") {
         return;
     }
     curTabId = names[1];
-    ports[curTabId] = port;
+    ports[curTabId] =  {
+        port : port,
+        url : names[2]
+    };
     // Remove port when destroyed (eg when devtools instance is closed)
     port.onDisconnect.addListener(function () {
         delete ports[curTabId];
@@ -23,5 +26,5 @@ chrome.runtime.onConnect.addListener(function(port) {
 });
 
 chrome.webNavigation.onCompleted.addListener(function(details) {
-    notifyDevtools('reloadcomplete', details.tabId);
+    notifyDevtools('reloadcomplete', details.tabId, details.url);
 });

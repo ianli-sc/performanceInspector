@@ -1,0 +1,116 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel='stylesheet' href='panel.css'>
+    <!-- lib -->
+    <script src="./js/jquery-2.1.1.js"></script>
+    <script src="./js/highcharts.js"></script>
+    <script src="./js/highcharts-more.js"></script>
+    <script src="./js/modules/data.js"></script>
+    <script src="./js/modules/drilldown.js"></script>
+</head>
+<body>
+    <h2 class="header">Performance of current page - 当前页面性能</h2>
+    <article class="memory">
+        <h3>Memory used : <code>performance.memory</code> - 内存使用
+            <span class="tip">NOT STANDARD - 非标准</span>
+            <a href="https://docs.webplatform.org/wiki/apis/timing/properties/memory">only implemented in Chrome - 仅chrome支持</a>
+        </h3>
+        <div class="container"><ins>loading...</ins></div>
+        <table>
+            <tr>
+                <th>name</th><th>description</th>
+            </tr>
+            <tr>
+                <td>jsHeapSizeLimit</td><td>js允许最大大小，包含执行时空间</td>
+            </tr>
+            <tr>
+                <td>usedJSHeapSize</td><td>当前页面的js内存使用</td>
+            </tr>
+            <tr>
+                <td>totalJSHeapSize</td><td>包含系统和当前页面js的内存使用</td>
+            </tr>
+        </table>
+    </article>
+    <article class="timing">
+        <h3>Loading Timing : <code>performance.timing</code> - 加载时间<a href="http://www.w3.org/TR/navigation-timing/">More</a></h3>
+        <div class="column"><ins>loading...</ins></div>
+        <div class="pie"><ins>loading...</ins></div>
+        <table>
+            <tr>
+                <th>name</th><th>description</th>
+            </tr>
+            <tr>
+                <td>redirect</td><td>页面重定向时间</td>
+            </tr>
+            <tr>
+                <td>fetch app catch</td><td>对请求的资源进行浏览器缓存内的查找</td>
+            </tr>
+            <tr>
+                <td>dns look up</td><td>对请求的地址的dns查找</td>
+            </tr>
+            <tr>
+                <td>tcp connect</td><td>建立tcp连接（包含https的多一次的握手）</td>
+            </tr>
+            <tr>
+                <td>request</td><td>发送请求</td>
+            </tr>
+            <tr>
+                <td>response</td><td>请求返回</td>
+            </tr>
+            <tr>
+                <td>dom loaded</td><td>页面dom加载</td>
+            </tr>
+            <tr>
+                <td>dom complete</td><td>dom加载完成</td>
+            </tr>
+            <tr>
+                <td>onload</td><td>onload事件触发到完成</td>
+            </tr>
+        </table>
+    </article>
+    <article class="resource">
+        <h3>Resources Timing : <code>performance.getEntries</code> - 加载的资源<a href="http://www.w3.org/TR/resource-timing/">More</a></h3>
+        <h4>Resources loaded after domready events for 2s - 页面domready后2秒内的内容</h4>
+        <div class="all">
+            <div class="pie-amout pie"></div>
+            <div class="pie-duration pie"></div>
+        </div>
+        <h4>Resources loaded before domload event - 页面onload事件触发前的资源</h4>
+        <div class="beforeonload">
+            <div class="pie-amout pie"></div>
+            <div class="pie-duration pie"></div>
+        </div>
+        <table>
+            <tr>
+                <th>name</th><th>description</th>
+            </tr>
+            <tr>
+                <td>script</td><td>js和jsonp请求</td>
+            </tr>
+            <tr>
+                <td>link</td><td>css和页面tab标签上的图标</td>
+            </tr>
+            <tr>
+                <td>internal</td><td>内部请求（iframe和插件等等）</td>
+            </tr>
+            <tr>
+                <td>xmlhttprequest</td><td>异步XHR请求</td>
+            </tr>
+            <tr>
+                <td>iframe</td><td>内嵌iframe</td>
+            </tr>
+            <tr>
+                <td>css</td><td>样式</td>
+            </tr>
+            <tr>
+                <td>img</td><td>图片</td>
+            </tr>
+        </table>
+        <h5>More Infomation : check the tab - Network - 更多信息请查看“网络”页</h5>
+        <h5>TODO... show net work history in future... - 这只是一句装逼的话</h5>
+    </article>
+    <footer>by - 承风 - <a href="https://github.com/ianli-sc/performanceInspector/issues">提个建议、bug</a> - 懒得做i18n就直接中英结合啦</footer>
+    <script src="panel.js"></script>
+</body>
+</html>

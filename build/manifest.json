@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+
+    "name": "Performance inspector",
+    "description": "This extension allow user to inspect performance of current page easily",
+    "version": "0.1",
+    "content_security_policy": "default-src 'self'  chrome-extension-resource: ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval';  connect-src *; frame-src *;",
+    "devtools_page": "performance.html",
+    "web_accessible_resources": [
+        "*"
+    ],
+//    "content_scripts": [
+//        {
+//            "js": ["content.js"],
+//            "matches": ["http://*/*"]
+//        }
+//    ],
+    "background":{"scripts":["background.js"]},
+    "permissions": [
+        "tabs", "http://*/*", "https://*/*", "webNavigation"
+    ]
+}
