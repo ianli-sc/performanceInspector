@@ -1,10 +1,13 @@
 <html>
 <head>
+    <meta charset="utf-8" />
     <link rel='stylesheet' href='panel.css'>
     <!-- lib -->
     <script src="./js/jquery-2.1.1.js"></script>
     <script src="./js/highcharts.js"></script>
     <script src="./js/highcharts-more.js"></script>
+    <script src="./js/modules/data.js"></script>
+    <script src="./js/modules/drilldown.js"></script>
 </head>
 <body>
     <h2 class="header">Performance of current page</h2>
@@ -13,14 +16,20 @@
             <span class="tip">NOT STANDARD </span>
             <a href="https://docs.webplatform.org/wiki/apis/timing/properties/memory">only implemented in Chrome</a>
         </h3>
-        <div class="container">loading...</div>
+        <div class="container"><ins>loading...</ins></div>
     </article>
     <article class="timing">
-        <h3>Memory used : performance.memory</h3>
-        <div class="column">loading...</div>
-        <div class="pie">loading...</div>
+        <h3>Loading Timing : performance.timing <a href="http://www.w3.org/TR/navigation-timing/">More</a></h3>
+        <div class="column"><ins>loading...</ins></div>
+        <div class="pie"><ins>loading...</ins></div>
     </article>
-    <article class="resource"></article>
+    <article class="resource">
+        <h3>Resource Timing : performance.getEntries <a href="http://www.w3.org/TR/resource-timing/">More</a></h3>
+        <div class="pie-amout"></div>
+        <div class="pie-duration"></div>
+        <h4>More Infomation : check the tab - Network</h4>
+        <h4>TODO... show net work history in future...</h4>
+    </article>
     <script src="panel.js"></script>
 </body>
 </html>

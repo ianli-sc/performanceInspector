@@ -3,7 +3,8 @@
  * found in the LICENSE file. */
 
 html, body {
-    font-family: 12px/1.2 "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font: 12px/1.2 "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    letter-spacing: -1px;
     margin: 0;
 }
 
@@ -16,6 +17,14 @@ h3 {
     padding: 14px 14px 14px 30px;
     cursor: pointer;
 }
+h3 a {
+    color: #2196F3;
+    font-size: 10px;
+}
+h4 {
+    font-size: 12px;
+    padding-left: 30px;
+}
 
 article {
     margin-top: 30px;
@@ -23,6 +32,29 @@ article {
 }
 
 article div {
-    height: 400px;
-    padding-left: 30px;
+    max-height: 400px;
+}
+
+article div ins {
+    text-decoration: none;
+    padding-left: 35px
+}
+
+.timing .pie {
+    margin-top: 30px;
+}
+
+.resource div {
+    margin-top: 30px;
+    padding: 0;
+    display: inline-block;
+}
+
+.tip {
+    font-size: 12px;
+    display: inline-block;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #d10000;
+    color: #fff;
 }

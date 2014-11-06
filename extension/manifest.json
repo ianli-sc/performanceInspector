@@ -8,5 +8,15 @@
     "devtools_page": "performance.html",
     "web_accessible_resources": [
         "*"
+    ],
+//    "content_scripts": [
+//        {
+//            "js": ["content.js"],
+//            "matches": ["http://*/*"]
+//        }
+//    ],
+    "background":{"scripts":["background.js"]},
+    "permissions": [
+        "tabs", "http://*/*", "https://*/*", "webNavigation"
     ]
 }
