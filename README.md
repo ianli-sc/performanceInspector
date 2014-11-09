@@ -4,7 +4,7 @@
 </p>
 ## Why & Where
 
-* Model browsers supported API of performance but no extension for chrome that make user easy to see the result
+* Modern browsers supported API of performance but no extension for chrome that make user easy to see the result
 * [Download from chrome apps](https://chrome.google.com/webstore/detail/performance-inspector/bgomfgoppmhcminmdojjeejheppadagh)，find in your develop tool tabs
 
 ## Build
