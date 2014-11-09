@@ -1,21 +1,26 @@
 # Performance Inspector
-
-## Why
+<p>
+<img src="./performance.png" style="width:100%;margin:0;"/>
+</p>
+## Why & Where
 
 * Model browsers supported API of performance but no extension for chrome that make user easy to see the result
+* [Download from chrome apps](https://chrome.google.com/webstore/detail/performance-inspector/bgomfgoppmhcminmdojjeejheppadagh)，find in your develop tool tabs
 
 ## Build
-* Just a little compress operate
+* If you wanna to build a special version for yourself. Change data in folder `src` and run commands below in your terminal.
 * `npm install`
 * `gulp`
+* Just a little operate of compress files~
+* PS. you need to install [Node.js](http://nodejs.org)
 
 ## How
 * Get data form inspected tab of performance and build charts for it
 * Refresh page to get current data of performance after domfomplete event of Chrome
 
 ## More help
-* As usual, **NO WORK** for website of Google because some licenses of extension what I don't want to describe it here..
-* Leave a issue please
+* As usual, **NO WORK** for websites of Google because some licenses of extension what I don't want to describe it here..
+* [Leave a issue](https://github.com/ianli-sc/performanceInspector/issues) please
 
 ## License
 * [WTFPL](http://en.wikipedia.org/wiki/WTFPL)
