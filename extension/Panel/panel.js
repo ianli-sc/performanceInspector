@@ -213,6 +213,51 @@
     }
 
     /**
+     * get short name from url request
+     * @param name
+     * @returns {*}
+     */
+    function getShortName(name) {
+        var shortName = name || '';
+        var lastQues = name.lastIndexOf('?');
+        //remove query (special http://a.b.com??a.js,b.js?t=1 will just get b.js...TODO)
+        if(lastQues !== -1 && name[(lastQues -1)] !== '?') {
+            shortName = shortName.substring(0, lastQues);
+        }
+        var resultData;
+        //get type
+        resultData = shortName.substr(shortName.lastIndexOf('.'));
+        shortName = shortName.substring(0, name.lastIndexOf('.'));
+        //get name
+        resultData = shortName.substr((shortName.lastIndexOf('/') +1)) + resultData;
+
+        return resultData;
+    }
+    /**
+     * .swf file has no initiatortype
+     * @param value
+     * @returns {*}
+     */
+    function getInitiatorType(value) {
+        var resultData = value.initiatorType;
+        if(!resultData || resultData === '') {
+            var name = value.name;
+            if(!name) {
+                resultData = 'resource';
+            } else {
+                resultData = name;
+                var lastQues = name.lastIndexOf('?');
+                //has query remove it
+                if(lastQues !== -1 && name[(lastQues -1)] !== '?') {
+                    resultData = resultData.substring(0, lastQues);
+                }
+                resultData = resultData.substr((resultData.lastIndexOf('.') + 1));
+            }
+        }
+        return resultData;
+    }
+
+    /**
      * create createEntries
      */
     function createEntries(resources, root) {
@@ -228,11 +273,11 @@
         var totalDrillTime = [];
 
         $.each(resources, function(key, value) {
-            //amout and time increase
+            //amount and time increase
             totalAmount ++;
             totalTime += value.duration;
 
-            initiatorType = value.initiatorType;
+            initiatorType = getInitiatorType(value);
             foundData = easyfinder[initiatorType];
             if(foundData === undefined) {
                 //In fact the 3 array have same length
@@ -252,7 +297,7 @@
 
                 //create data for drill
                 var name = value.name;
-                var shortName = name.substr((name.lastIndexOf('/') + 1), 20);
+                var shortName = getShortName(name);
                 //full name may toooooooo long
                 var fullName4show = name.length < 50 ? name : (name.slice(0, 30) + '...' + shortName);
                 tmpObj = {
@@ -285,7 +330,7 @@
                 //add to series
                 //tmpObj = [value.name, value.duration];
                 var name = value.name;
-                var shortName = name.substr((name.lastIndexOf('/') + 1), 20);
+                var shortName = getShortName(name);
                 //full name may toooooooo long
                 var fullName4show = name.length < 50 ? name : (name.slice(0, 30) + '...' + shortName);
                 tmpObj = {
@@ -414,9 +459,14 @@
         }
 
         $('article > h3').on('click', function(e) {
-            var target = $(e.target).parents('article');
-            target.find('div').toggle();
-            target.find('table').toggle();
+            var $target = $(e.target);
+            var $parent = $(e.target).parents('article');
+            if($target.hasClass('help')) {
+                $parent.find('div.help-detail').toggleClass('hide');
+            } else {
+                $parent.find('div').toggle();
+                $parent.find('table').toggle();
+            }
         });
     }
 

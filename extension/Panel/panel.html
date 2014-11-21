@@ -11,13 +11,16 @@
     <base target="_blank"/>
 </head>
 <body>
-    <h2 class="header">Performance of current page - 当前页面性能</h2>
-    <article class="memory">
-        <h3>Memory used : <code>performance.memory</code> - 内存使用
+<h2 class="header">Performance of current page - 当前页面性能</h2>
+<article class="memory">
+    <h3>Memory used : <code>performance.memory</code> - 内存使用
+        <span class="help" title="toggle help content">?</span>
+    </h3>
+    <div class="help-detail hide">
+        <h3>
             <span class="tip">NOT STANDARD - 非标准</span>
             <a href="https://docs.webplatform.org/wiki/apis/timing/properties/memory">only implemented in Chrome - 仅chrome支持</a>
         </h3>
-        <div class="container"><ins>loading...</ins></div>
         <table>
             <tr>
                 <th>name</th><th>description</th>
@@ -32,11 +35,13 @@
                 <td>totalJSHeapSize</td><td>包含系统和当前页面js的内存使用</td>
             </tr>
         </table>
-    </article>
-    <article class="timing">
-        <h3>Loading Timing : <code>performance.timing</code> - 加载时间<a href="http://www.w3.org/TR/navigation-timing/">More</a></h3>
-        <div class="column"><ins>loading...</ins></div>
-        <div class="pie"><ins>loading...</ins></div>
+    </div>
+    <div class="container"><ins>loading...</ins></div>
+</article>
+<article class="timing">
+    <h3>Loading Timing : <code>performance.timing</code> - 加载时间<span class="help" title="toggle help content">?</span></h3>
+    <div class="help-detail hide">
+        <h3><a href="http://www.w3.org/TR/navigation-timing/">More Information on W3.org</a></h3>
         <table>
             <tr>
                 <th>name</th><th>description</th>
@@ -69,19 +74,14 @@
                 <td>onload</td><td>onload事件触发到完成</td>
             </tr>
         </table>
-    </article>
-    <article class="resource">
-        <h3>Resources Timing : <code>performance.getEntries</code> - 加载的资源<a href="http://www.w3.org/TR/resource-timing/">More</a></h3>
-        <h4>Resources loaded after domready events for 2s - 页面domready后2秒内的内容</h4>
-        <div class="all">
-            <div class="pie-amout pie"></div>
-            <div class="pie-duration pie"></div>
-        </div>
-        <h4>Resources loaded before domload event - 页面onload事件触发前的资源</h4>
-        <div class="beforeonload">
-            <div class="pie-amout pie"></div>
-            <div class="pie-duration pie"></div>
-        </div>
+    </div>
+    <div class="column"><ins>loading...</ins></div>
+    <div class="pie"><ins>loading...</ins></div>
+</article>
+<article class="resource">
+    <h3>Resources Timing : <code>performance.getEntries</code> - 加载的资源<span class="help" title="toggle help content">?</span></h3>
+    <div class="help-detail hide">
+        <h3><a href="http://www.w3.org/TR/resource-timing/">More Information on W3.org</a></h3>
         <table>
             <tr>
                 <th>name</th><th>description</th>
@@ -110,8 +110,19 @@
         </table>
         <h5>More Infomation : check the tab - Network - 更多信息请查看“网络”页</h5>
         <h5>TODO... show net work history in future... - 这只是一句装逼的话</h5>
-    </article>
-    <footer>by - 承风 - <a href="https://github.com/ianli-sc/performanceInspector/issues">提个建议、bug</a> - 懒得做i18n就直接中英结合啦</footer>
-    <script src="panel.js"></script>
+    </div>
+    <h4>Resources loaded after domready events for 2s - 页面domready后2秒内的内容</h4>
+    <div class="all">
+        <div class="pie-amout pie"></div>
+        <div class="pie-duration pie"></div>
+    </div>
+    <h4>Resources loaded before domload event - 页面onload事件触发前的资源</h4>
+    <div class="beforeonload">
+        <div class="pie-amout pie"></div>
+        <div class="pie-duration pie"></div>
+    </div>
+</article>
+<footer>by - 承风 - <a href="https://github.com/ianli-sc/performanceInspector/issues">提个建议、bug</a> - 懒得做i18n就直接中英结合啦</footer>
+<script src="panel.js"></script>
 </body>
 </html>

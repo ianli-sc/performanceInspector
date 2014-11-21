@@ -465,3 +465,29 @@ article h3 {
 .resource > div {
     margin-bottom: 20px;
 }
+.help {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: #c40000;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    text-align: center;
+    border: 1px solid #B10000;
+    border-radius: 10px;
+}
+
+.help-detail {
+    padding: 20px;
+    font-style: italic;
+    background-color: #DDD;
+}
+
+.help-detail table {
+    font-style: italic;
+}
+
+.hide {
+    display: none;
+}
