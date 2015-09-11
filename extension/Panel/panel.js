@@ -22,9 +22,9 @@
         if(chrome && chrome.devtools) {
             var devTools = chrome.devtools;
             var inspectedWindow = devTools.inspectedWindow;
-            inspectedWindow.eval("(function() {var ent = window.performance.getEntries();var result =[];var tmp;for(var key in ent) {tmp={};for(var k in ent[key]) {tmp[k] = ent[key][k]};result.push(tmp);}return JSON.stringify(result);})()", function(result, e) {
+            inspectedWindow.eval("(function () {var ent = window.performance.getEntries();var result = [];var tmp;for (var key in ent) {tmp = {};for (var k in ent[key]) {if(typeof ent[key][k] !== 'function') {tmp[k] = ent[key][k];}}result.push(tmp);}return JSON.stringify(result);})()", function(result, e) {
                 if(e) {
-                    document.body.innerHTML = 'Eval code error : ' + e;
+                    $('.resource').html('getEntries - Eval code error : ' + JSON.stringify(e));
                 } else {
                     entries = JSON.parse(result);
                     createEntries(entries, $('.all'));
@@ -44,7 +44,7 @@
             var inspectedWindow = devTools.inspectedWindow;
             inspectedWindow.eval("(function() {var ent = window.performance.memory;var result ={};for(var key in ent) {result[key] = ent[key]}return result;})()", function(result, e) {
                 if(e) {
-                    document.body.innerHTML = 'Eval code error : ' + e;
+                    $('.memory').html('getMemory - Eval code error : ' + JSON.stringify(e));
                 } else {
                     createMemory(result);
                 }
@@ -63,7 +63,7 @@
             var inspectedWindow = devTools.inspectedWindow;
             inspectedWindow.eval("window.performance.timing.toJSON()", function(result, e) {
                 if(e) {
-                    document.body.innerHTML = 'Eval code error : ' + e;
+                    $('.timing').html('getTiming - Eval code error : ' + JSON.stringify(e));
                 } else {
                     timing = result;
                     createTiming(timing);
