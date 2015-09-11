@@ -22,7 +22,7 @@
         if(chrome && chrome.devtools) {
             var devTools = chrome.devtools;
             var inspectedWindow = devTools.inspectedWindow;
-            inspectedWindow.eval("JSON.stringify(window.performance.getEntries())", function(result, e) {
+            inspectedWindow.eval("(function() {var ent = window.performance.getEntries();var result =[];var tmp;for(var key in ent) {tmp={};for(var k in ent[key]) {tmp[k] = ent[key][k]};result.push(tmp);}return JSON.stringify(result);})()", function(result, e) {
                 if(e) {
                     document.body.innerHTML = 'Eval code error : ' + e;
                 } else {
@@ -38,6 +38,43 @@
         }
     }
 
+    function getMemory() {
+        if(chrome && chrome.devtools) {
+            var devTools = chrome.devtools;
+            var inspectedWindow = devTools.inspectedWindow;
+            inspectedWindow.eval("(function() {var ent = window.performance.memory;var result ={};for(var key in ent) {result[key] = ent[key]}return result;})()", function(result, e) {
+                if(e) {
+                    document.body.innerHTML = 'Eval code error : ' + e;
+                } else {
+                    createMemory(result);
+                }
+            });
+        } else {
+            createMemory(window.performance.memory);
+        }
+    }
+    /**
+     * get timing data
+     */
+    function getTiming() {
+        var timing;
+        if(chrome && chrome.devtools) {
+            var devTools = chrome.devtools;
+            var inspectedWindow = devTools.inspectedWindow;
+            inspectedWindow.eval("window.performance.timing.toJSON()", function(result, e) {
+                if(e) {
+                    document.body.innerHTML = 'Eval code error : ' + e;
+                } else {
+                    timing = result;
+                    createTiming(timing);
+                }
+            });
+        } else {
+            timing = window.performance.timing;
+            createTiming(timing);
+        }
+    }
+
     /**
      * create panel for memory
      */
@@ -46,11 +83,17 @@
         var keyList = [];
         var dataList = [];
         var text;
-        $.each(memory, function(key, value) {
-            keyList.push(key);
-            text = value / 1024 / 1024;
-            dataList.push(parseFloat(text.toFixed(4)));
-        });
+
+        try {
+            $.each(memory, function(key, value) {
+                keyList.push(key);
+                text = value / 1024 / 1024;
+                dataList.push(parseFloat(text.toFixed(4)));
+            });
+        } catch(e) {
+            return document.body.innerHTML = e;
+        }
+
         text = 'Memory Used';
         $('.memory > div.container').highcharts({
             chart: {
@@ -432,30 +475,22 @@
         });
     }
 
-    /**
-     * create view of performance
-     */
-    function createView(performance) {
-        createMemory(performance.memory);
-        createTiming(performance.timing);
-    }
 
     function init() {
-        if(chrome && chrome.devtools) {
-            chrome.devtools.inspectedWindow.eval(
-                "window.performance",
-                function (result, isException) {
-                    if(isException) {
-                        document.body.innerHTML = 'Eval code error : ' + isException;
-                    } else {
-                        createView(result);
-                        getEntries();
-                    }
-                }
-            );
-        } else {
-            createView(window.performance);
+        try {
+            getTiming();
+        } catch(e) {
+            $('.timing').html('error in getTiming, Chrome change the type of object PerformanceTiming');
+        }
+        try {
+            getMemory();
+        } catch(e) {
+            $('.memory').html('error in getTiming, Chrome change the type of object MemoryInfo');
+        }
+        try {
             getEntries();
+        } catch(e) {
+            $('.resource').html('error in getTiming, Chrome change the type of object PerformanceResourceTiming');
         }
 
         $('article > h3').on('click', function(e) {
@@ -478,8 +513,8 @@
                 init();
             }, 2000);
         }
-    }
-
+    };
+    //
     document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function() {
             init();
